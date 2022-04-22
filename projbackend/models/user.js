@@ -1,0 +1,81 @@
+const mongoose = require("mongoose");
+const crypto = require('crypto');
+const uuidv1 = required('uuid/v1');
+
+
+
+
+var userSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true,
+        maxlength: 32,
+        trim: true
+    },
+    last_name: {
+        type: String,
+        maxlength: 32,
+        trim: true
+    },
+    email: {
+        type: String,
+        trim: true,
+        required: true,
+        unique: true
+    },
+    user_info: {
+        type: String,
+        trim: true
+    },
+    encry_password: {
+        type: String,
+        required: true
+    },
+    salt: String,
+    role: {
+        type: Number,
+        default: 0
+    },
+    purchases: {
+        type: Array,
+        default: []
+    }
+    },
+    {timestamps: true}
+);
+//virtual field for password uisng the method of userSchema
+userSchema.virtual("password")
+    .set(function(password){
+        this._password = password
+        this.salt = uuidv1();
+        this.encry_password = this.securePassword(password)
+    })
+    .get(function(){
+        return this._password
+    })
+
+
+
+//refer crypto docs in node
+userSchema.method = {
+
+    authenticate: function(plainpassword){
+        return this.securePassword(plainpassword)=== this.encry_password
+    }, 
+
+    securePassword: function(plainpassword){
+        if(!password) return "";
+        try {
+            return crypto.createHmac('sha256', this.salt)
+            .update(plainpassword)
+            .digest('hex');
+        } catch (err) {
+            return "";
+            
+        }
+    }
+};
+
+
+//to use it outside the file we create a module
+module.exports = mongoose.model("User", userSchema);
