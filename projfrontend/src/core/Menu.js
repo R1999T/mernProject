@@ -3,12 +3,13 @@ import { Link, withRouter } from "react-router-dom";
 
 const currentTab = (history, path) => {
   if (history.location.pathname === path) {
-    return { color: "#FFFFFF" };
+    return { color: "#2ecc72" };
   } else {
-    return { color: "d1d1d1" };
+    return { color: "#FFFFFF" };
   }
 };
 
+//curly braces need return
 const Menu = ({ history }) => (
   <div>
     <ul className="nav nav-tabs bg-dark">
@@ -18,7 +19,11 @@ const Menu = ({ history }) => (
         </Link>
       </li>
       <li className="nav-item">
-        <Link style={currentTab(history, "/")} className="nav-link" to="/cart">
+        <Link
+          style={currentTab(history, "/cart")}
+          className="nav-link"
+          to="/cart"
+        >
           Cart
         </Link>
       </li>
@@ -41,29 +46,17 @@ const Menu = ({ history }) => (
         </Link>
       </li>
       <li className="nav-item">
-        <Link
-          style={currentTab(history, "/signup")}
-          className="nav-link"
-          to="/signup"
-        >
+        <Link style={currentTab(history, "/signup")} className="nav-link" to="/signup">
           Signup
         </Link>
       </li>
       <li className="nav-item">
-        <Link
-          style={currentTab(history, "/signin")}
-          className="nav-link"
-          to="/signin"
-        >
-          Signin
+        <Link style={currentTab(history, "/signin")} className="nav-link" to="/signin">
+          Sign In
         </Link>
       </li>
       <li className="nav-item">
-        <Link
-          style={currentTab(history, "/signout")}
-          className="nav-link"
-          to="/signout"
-        >
+        <Link style={currentTab(history, "/signout")} className="nav-link" to="/signout">
           Signout
         </Link>
       </li>
