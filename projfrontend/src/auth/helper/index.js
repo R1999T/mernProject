@@ -1,6 +1,5 @@
 import { API } from "../../backend";
 
-
 //fetch request
 export const signup = (user) => {
   return fetch(`${API}/signup`, {
@@ -55,7 +54,7 @@ export const signout = (next) => {
 };
 
 export const isAuthenticated = () => {
-  if (typeof window !== "undefined") {
+  if (typeof window == "undefined") {
     return false;
   }
   if (localStorage.getItem("jwt")) {
