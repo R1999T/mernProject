@@ -14,16 +14,29 @@ const AdminDashboard = () => {
         <h4 className="card-header bg-dark text-white">Admin Navigation</h4>
         <ul className="list-group">
           <li className="list-group-item">
-            <Link to="/admin/create/category" className="nav-link text-success">Create Categories</Link>
+            <Link to="/admin/categories" className="nav-link text-success">
+              Create Categories
+            </Link>
           </li>
           <li className="list-group-item">
-            <Link to="/admin/create/products" className="nav-link text-success">Create products</Link>
+            <Link to="/admin/create/category" className="nav-link text-success">
+              Manage Categories
+            </Link>
           </li>
           <li className="list-group-item">
-            <Link to="/admin/products" className="nav-link text-success">Manage products</Link>
+            <Link to="/admin/create/product" className="nav-link text-success">
+              Create products
+            </Link>
           </li>
           <li className="list-group-item">
-            <Link to="/admin/orders" className="nav-link text-success">Manage orders</Link>
+            <Link to="/admin/products" className="nav-link text-success">
+              Manage products
+            </Link>
+          </li>
+          <li className="list-group-item">
+            <Link to="/admin/orders" className="nav-link text-success">
+              Manage orders
+            </Link>
           </li>
         </ul>
       </div>
@@ -31,21 +44,22 @@ const AdminDashboard = () => {
   };
 
   const adminRightSide = () => {
-    return(
+    return (
       <div className="card mb-4">
         <h4 className="card-header">Admin Information</h4>
         <ul className="list-group">
           <li className="list-group-item">
-              <span className="text-success">Name: </span>{name}
+            <span className="text-success">Name: </span>
+            {name}
           </li>
           <li className="list-group-item">
-              <span className="text-success">Email: </span>{email}
+            <span className="text-success">Email: </span>
+            {email}
           </li>
           <li className="list-group-item">
-              <span className="text-danger">Admin area</span>
+            <span className="text-danger">Admin area</span>
           </li>
         </ul>
-        
       </div>
     );
   };
