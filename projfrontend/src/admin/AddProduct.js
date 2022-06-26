@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Base from "../core/Base";
-import { getCategories } from "./helper/adminapicall";
+import { createAProduct, getCategories } from "./helper/adminapicall";
 import { isAuthenticated } from "../auth/helper";
 
 const AddProduct = () => {
@@ -50,11 +50,51 @@ const AddProduct = () => {
     preload();
   }, []);
 
-  const onSubmit = () => {
-    //
+  const onSubmit = (event) => {
+    event.preventDefault();
+    setValues({ ...values, error: "", loading: true });
+    createAProduct(user._id, token, formData).then((data) => {
+      if (data.error) {
+        setValues({ ...values, error: data.error });
+      } else {
+        setValues({
+          ...values,
+          name: "",
+          description: "",
+          price: "",
+          photo: "",
+          stock: "",
+          loading: false,
+          createdProduct: data.name, //to tell product is submited properly
+        });
+      }
+    });
   };
 
-  const handleChange = (name) => (event) => {};
+  const handleChange = (name) => (event) => {
+    const value = name === "photo" ? event.target.files[0] : event.target.value;
+    formData.set(name, value); //now console log will show the data
+    setValues({ ...values, [name]: value });
+  };
+
+  const successMessage = () => (
+    <div
+      className="alert alert-success mt-3"
+      style={{ display: createdProduct ? "" : "none" }}
+    >
+      <h4>{createdProduct} created successfully</h4>
+    </div>
+  );
+
+  //create error message if product does not created??
+  const errorMessage = () => (
+    <div
+      className="alert alert-warning mt-3"
+      style={{display: !createdProduct ? "" : "none"}}
+    >
+      <h4></h4>
+    </div>
+  );
 
   const createProductForm = () => (
     <form>
@@ -114,7 +154,7 @@ const AddProduct = () => {
       </div>
       <div className="p-1 form-group">
         <input
-          onChange={handleChange("quantity")}
+          onChange={handleChange("stock")}
           type="number"
           className="form-control"
           placeholder="Quantity"
@@ -141,7 +181,9 @@ const AddProduct = () => {
         Admin Home
       </Link>
       <div className="row bg-dark text-white rounded">
-        <div className="col-md-8 offset-md-2">{createProductForm()}</div>
+        <div className="col-md-8 offset-md-2">
+          {successMessage()} {createProductForm()}
+        </div>
       </div>
     </Base>
   );
