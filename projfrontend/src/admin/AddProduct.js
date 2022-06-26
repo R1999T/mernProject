@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Base from "../core/Base";
-import {getCategories}  from "./helper/adminapicall"
+import { getCategories } from "./helper/adminapicall";
+import { isAuthenticated } from "../auth/helper";
 
 const AddProduct = () => {
+  const { user, token } = isAuthenticated();
+
   const [values, setValues] = useState({
     name: "",
     description: "",
     price: "",
     stock: "",
     photo: "",
-    categories: [],
+    cotegories: [],
     category: "",
     loading: false,
     error: "",
-    createProduct: "",
+    createdProduct: "",
     getaRedirect: false,
     formData: "",
   });
@@ -28,20 +31,17 @@ const AddProduct = () => {
     category,
     loading,
     error,
-    createProduct,
+    createdProduct,
     getaRedirect,
     formData,
   } = values;
 
-  //inbuilt in reactBUG
   const preload = () => {
-    getCategories().then(data => {
-      
+    getCategories().then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
         setValues({ ...values, categories: data, formData: new FormData() });
-        console.log("CATE:",categories);
       }
     });
   };
@@ -49,9 +49,10 @@ const AddProduct = () => {
   useEffect(() => {
     preload();
   }, []);
-//
 
-  const onSubmit = () => {};
+  const onSubmit = () => {
+    //
+  };
 
   const handleChange = (name) => (event) => {};
 
@@ -103,8 +104,12 @@ const AddProduct = () => {
           placeholder="Category"
         >
           <option>Select</option>
-          <option value="a">a</option>
-          <option value="b">b</option>
+          {categories &&
+            categories.map((cate, index) => (
+              <option key={index} value={cate._id}>
+                {cate.name}
+              </option>
+            ))}
         </select>
       </div>
       <div className="p-1 form-group">

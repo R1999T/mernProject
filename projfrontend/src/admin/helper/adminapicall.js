@@ -22,10 +22,10 @@ export const getCategories = () => {
   return fetch(`${API}/categories`, {
     method: "GET",
   })
-    .then((response) => {
+    .then(response => {
       return response.json();
     })
-    .catch((err) => console.group(err));
+    .catch(err => console.group(err));
 };
 
 //product calls
